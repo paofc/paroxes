@@ -1,0 +1,43 @@
+{
+  "name": "Επιλογή Παροχής ΧΤ – Connexion Engineering",
+  "short_name": "Παροχές ΧΤ",
+  "description": "Επιλογή καλωδίου παροχής ΧΤ, μετρητική διάταξη, υλικά, αναχωρήσεις Μ/Σ, εναέριοι Υ/Σ, πτώση τάσης, ουδετέρωση ΧΤ, Πυθαγόρας, ΕΤΚΔ, κατασκευές, αποστάσεις ασφαλείας – ΟΔ.26/ΟΔ.45/ΟΔ.22/ΟΔ.21/ΟΔ.34/ΟΔ.38/ΟΔ.119/C-1…C-23 – © Δημήτρης Βρούβας (φιλική συμμετοχή Αθηνά)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0e11",
+  "theme_color": "#000000",
+  "lang": "el",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "id": "./index.html",
+  "categories": [
+    "utilities",
+    "productivity"
+  ]
+}

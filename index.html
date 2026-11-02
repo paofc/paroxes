@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Παροχές ΧΤ">
+<title>Επιλογή Παροχής ΧΤ – Connexion Engineering</title>
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top" lang="el">
+  <img src="logo.jpg" alt="Connexion Engineering">
+  <div class="title">
+    <h1>ΕΠΙΛΟΓΗ ΠΑΡΟΧΗΣ ΧΤ – ΜΕΤΡΗΤΙΚΗ ΔΙΑΤΑΞΗ – ΥΛΙΚΑ</h1>
+    <div class="sub">Connexion Engineering</div>
+    <div class="ver">ΟΔ.26 (3η έκδ. 07/2025) · ΟΔ.45 · ΟΔ.22 · ΟΔ.21 · ΟΔ.34 · ΟΔ.38 · ΟΔ.119 · Εγχειρίδιο Μελετών §10.3/§10.7 · Πυθαγόρας · Τυποποιήσεις C-1…C-23, CS-3, ΜΔ-1…83 · ΕΤΚΔ 15.09.2025 + ενημερώσεις 2026 · Έκδοση 7.3 – © Δημήτρης Βρούβας</div>
+  </div>
+  <img class="deddie" src="logo_deddie.png" alt="ΔΕΔΔΗΕ" title="ΔΕΔΔΗΕ – Διαχειριστής Ελληνικού Δικτύου Διανομής Ηλεκτρικής Ενέργειας">
+  <div class="homebar noprint" id="homebar">
+    <button id="hb_back" type="button" title="Επιστροφή στην αρχική οθόνη">‹ Αρχική</button>
+    <div class="hb-title" id="hb_title">Αρχική</div>
+    <div class="gsearch"><span class="gs-ic">🔍</span><input id="g_search" type="search" placeholder="Αναζήτηση στην εφαρμογή: καρτέλα, κωδικός ΕΤΚΔ (S-233, P-3II), κατασκευή, ΜΔ-71, κανόνας, απόσταση…" autocomplete="off" spellcheck="false"><button id="g_clear" type="button" title="Καθαρισμός (Esc)">✕</button></div>
+  </div>
+  <div class="gresults hidden" id="g_results" role="dialog" aria-label="Αποτελέσματα αναζήτησης"></div>
+</header>
+
+<main lang="el">
+<!-- ============================ TAB: HOME (απλή αρχική οθόνη με πλακίδια, όπως ο Πυθαγόρας) ============================ -->
+<section class="tab active" id="tab-home">
+  <div class="home">
+    <div class="home-lead"><b>Επιλογή Παροχής ΧΤ</b> – επιλέξτε εργασία από τα εικονίδια ή γράψτε στην <b>αναζήτηση</b> (καρτέλα, κωδικό ΕΤΚΔ, κατασκευή, ΜΔ, κανόνα, απόσταση ασφαλείας). Από κάθε καρτέλα η επιστροφή γίνεται με το «‹ Αρχική». Οι κανόνες και οι επεξηγήσεις των οδηγιών ανοίγουν με drop-down.</div>
+    <div id="home_tiles"></div>
+    <div class="home-foot muted small">Βοήθημα μελέτης – η τελική ευθύνη ανήκει στον μελετητή · <b>COPYRIGHT © Δημήτρης Βρούβας</b> (φιλική συμμετοχή Αθηνά)</div>
+  </div>
+</section>
+
+<!-- ============================ TAB: MAIN ============================ -->
+<section class="tab" id="tab-main">
+<div class="layout">
+  <div class="inputs">
+    <div class="card">
+      <h2><span class="n">1</span> Στοιχεία έργου</h2>
+      <div class="cabletop" id="m_cabletop"><div class="k">Καλώδιο παροχής – διατομή <button type="button" class="mini goto noprint" id="btn_goto_board2" title="Μετάβαση στη Μετρητική διάταξη">Μετρητική διάταξη ›</button></div><div class="v" id="m_cabletop_v">—</div><div class="s" id="m_cabletop_s">Συμπληρώστε τις παροχές (2) – η διατομή ενημερώνεται αυτόματα.</div></div>
+      <div class="field"><label>Έργο / Πελάτης</label><input id="p_name" type="text" placeholder="π.χ. Πολυκατοικία Πολύγυρος"></div>
+      <div class="field"><label>Θέση</label><input id="p_addr" type="text"></div>
+      <div class="field"><label>Μελετητής</label><input id="p_eng" type="text"></div>
+      <div class="field"><label>Ημερομηνία</label><input id="p_date" type="date"></div>
+      <div class="field wide"><label>Δίκτυο τροφοδότησης <small>ΕΝΑΕΡΙΟ ή ΥΠΟΓΕΙΟ δίκτυο ΧΤ – καθορίζει το είδος παροχής (ΟΔ.45 §4)</small></label><select id="m_net"><option value="OH">ΕΝΑΕΡΙΟ ΔΙΚΤΥΟ ΧΤ</option><option value="UG">ΥΠΟΓΕΙΟ ΔΙΚΤΥΟ ΧΤ</option></select></div>
+      <div class="field"><label>Απόσταση L δικτύου – καταναλωτή (m) <small>εναέρια: άνοιγμα στύλου–κτιρίου · έλεγχος στυλίσκου / γάντζου</small></label><input id="m_L" type="number" min="0" step="0.5" value="25"></div>
+      <div class="lcheck" id="m_lcheck"></div>
+    </div>
+    <div class="card">
+      <h2><span class="n">2</span> Παροχές – πλήθος μετρητών & φορτία</h2>
+      <div class="tw"><table class="grid loadgrid" id="m_supplies"></table></div>
+      <div class="muted small" style="margin:6px 0 8px">Φορτία ανά παροχή (<span class="param">κίτρινα</span>): κανόνες γραφείου – Νο 03 = 32, Νο 05 = 50, Νο 1 = 25, Νο 2 = 35, Νο 3 = 50, Νο 4 = 80, Νο 5 = 125, Νο 6 = 215, Νο 7 = 315 A.</div>
+      <div class="field"><label>Πρόσθετο φορτίο ΜΕ ταυτοχρονισμό (A/φάση) <small>γραφεία / καταστήματα 50 W/m² (ΟΔ.45 §1.2)</small></label><input id="m_extra_c" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Πρόσθετο φορτίο ΧΩΡΙΣ ταυτοχρονισμό (A/φάση) <small>βιοτεχνία, θερμοσυσσώρευση (ΟΔ.45 §1.3)</small></label><input id="m_extra" type="number" min="0" step="1" value="0"></div>
+      <div class="field wide"><label>Κατανομή μονοφασικών στις φάσεις</label><select id="m_dist"><option value="WORST">Δυσμενέστερη φάση (ΟΔ.45 Πίν. ΙΙ)</option><option value="AVG">Μέση τιμή – ισοκατανομή /3 (ΟΔ.22 τύπος 1)</option></select></div>
+      <div class="field wide"><label>Γραμμή παροχής</label><select id="m_line"><option value="AUTO">Αυτόματα (1Φ όταν ≤ 2 μονοφασικοί χωρίς τριφασικούς · 2 × Νο 05 → 3Φ με διανομέα)</option><option value="1F">1Φ – δίκλωνο καλώδιο (2x)</option><option value="3F">3Φ – τετράκλωνο καλώδιο (4x)</option></select></div>
+      <div class="field"><label>Περιθώριο σχεδιασμού (%)</label><input id="m_margin" type="number" min="0" max="100" step="1" value="0"></div>
+    </div>
+    <div class="card">
+      <h2><span class="n">3</span> Δίκτυο, είδος παροχής & εγκατάσταση</h2>
+      <div class="field wide"><label>Επιθυμητό είδος παροχής <small>εναέρια μόνο από εναέριο δίκτυο με ≤ 18 ισοδύναμους 1Φ μετρητές (ΟΔ.45 §4)</small></label><select id="m_req"><option value="AUTO">Αυτόματα κατά ΟΔ.45 §4</option><option value="OH">Εναέρια (αν επιτρέπεται)</option><option value="UG">Υπόγεια (αίτηση καταναλωτή / απόφαση ΔΕΔΔΗΕ)</option></select></div>
+      <div class="field"><label>Υπόγειο δίκτυο: καλώδιο σε σωλήνα > 6 m; <small>ΟΔ.45 §3</small></label><select id="m_pipe"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field wide"><label>Τροφοδότηση <small>μεμονωμένος = ιδιαίτερη αναχώρηση / Υ/Σ (ΟΔ.22 Πίν. 11.2)</small></label><select id="m_feed"><option value="NET">Από δίκτυο ΧΤ (ΟΔ.22 Πίν. 11.1)</option><option value="ISO">Μεμονωμένος καταναλωτής – ιδιαίτερη αναχώρηση ή Υ/Σ (Πίν. 11.2)</option></select></div>
+      <div class="field wide" id="f_irrig"><label>Παροχή Νο 4 – περιβάλλον <small>αρδευτική (αντλητικό εκτός αστικού περιβάλλοντος) → ελάχιστος Μ/Σ 50 kVA αντί 100 kVA (κανόνας γραφείου)</small></label><select id="m_irrig"><option value="URBAN">Αστικό περιβάλλον (Πίν. 11.1/11.2: Μ/Σ ≥ 100 kVA)</option><option value="IRRIG">Αρδευτική παροχή (Μ/Σ ≥ 50 kVA)</option></select></div>
+      <div class="field wide"><label>Στήριξη εναέριας παροχής στο κτίριο <small>στυλίσκος παροχής ≥ 3" / 6 m (4" για 4x25–4x50 με L &gt; 12 m) · ΔΕΔΔΗΕ 2,5 / 4,75 m · γάντζος · όρια C-3 στυλίσκου/γάντζου: 2x6 30/35, 2x16 25/30, 4x6 25/30, 4x16 20/25, 4x25 20/25, 4x35–4x50 15/20 m</small></label><select id="m_pole"><option value="POLE">Στυλίσκος παροχής 3"/4" – 6 m (αυτόματη επιλογή διαμέτρου)</option><option value="2.5">Στυλίσκος παροχών ΔΕΔΔΗΕ 2,5 m</option><option value="4.75">Στυλίσκος παροχών ΔΕΔΔΗΕ 4,75 m</option><option value="WALL">Γάντζος / γωνιακό έλασμα τοίχου</option></select></div>
+      <div class="field wide"><label>Προστασία μετρητών</label><select id="m_prot"><option value="fuse">Ασφάλειες μετρητή (ΟΔ.22)</option><option value="mcb">Μικροαυτόματοι (όπου προβλέπονται)</option></select></div>
+      <div class="field"><label>Πλήθος μετρητικών διατάξεων <small>αυτόματα = το ελάχιστο που χωρά (9+9 θέσεις ανά διανομέα)· οι μετρητές μοιράζονται ισόποσα· το πολύ 2 σειρές: 1η επάνω (1,50 m), 2η κάτω (0,80 m) με τους διανομείς τον έναν κάτω από τον άλλον· 3η/4η σε δεύτερη στήλη</small></label><select id="m_rows"><option value="0" selected>Αυτόματα (ελάχιστο)</option><option value="1">1 διάταξη</option><option value="2">2 διατάξεις</option><option value="3">3 διατάξεις</option><option value="4">4 διατάξεις</option></select></div>
+      <div class="field wide"><label>Είδος εγκατάστασης / χρήση <small>→ πρόταση μετρητικής διάταξης (ΜΔ) · προσωρινή = σκαρίφημα ΣΚ-ΠΠ</small></label><select id="m_use"></select></div>
+      <div class="field wide"><label>Κιβώτιο ζεύξεως (link box) – υπόγειο δίκτυο <small>ΟΔ.45 §6: U2B2 όταν > 9 1Φ ή > 5 3Φ · U2B4 (4 διευθύνσεων) για διασύνδεση με γειτονικά καλώδια</small></label><select id="m_link"><option value="AUTO">Αυτόματα κατά ΟΔ.45 §6 (U2B2)</option><option value="U2B2">Link box 2 διευθύνσεων – κατασκευή U2B2</option><option value="U2B4">Link box 4 διευθύνσεων – κατασκευή U2B4</option><option value="NONE">Χωρίς κιβώτιο ζεύξεως</option></select></div>
+    </div>
+    <div class="card">
+      <h2><span class="n">4</span> Βάση εντάσεων, συνθήκες (ΟΔ.26) & τυποποιήσεις</h2>
+      <div class="field wide"><label>Βάση επιτρεπόμενων εντάσεων</label><select id="m_basis"><option value="od26">ΟΔ.26 – 3η έκδοση 07/2025 (ισχύουσα)</option><option value="od45">ΟΔ.45 – 1983, Πίν. III/IV (παλαιοί πίνακες, για σύγκριση)</option></select></div>
+      <div class="field"><label>Μέγιστο συγκεντρικό σε υπόγεια παροχή <small>ΟΔ.45 §4.4: 4x16 · ΟΔ.22 Πίν. 11.1: 4x50</small></label><select id="m_maxc"><option value="4x16">4x16</option><option value="4x25">4x25</option><option value="4x35">4x35</option><option value="4x50" selected>4x50</option></select></div>
+      <div class="field"><label>Υπόγεια: περιορίζει και η ένταση αέρα του συγκεντρικού; <small>ΟΧΙ = τιμές ΟΔ.26 Πίν. V «στο έδαφος» / «σε σωλήνα > 6 m» όπως αναγράφονται · ΝΑΙ = συντηρητικά όπως ο Πίν. ΙΙ ΟΔ.45</small></label><select id="m_airgov"><option value="0">ΟΧΙ (ΟΔ.26 Πίν. V)</option><option value="1">ΝΑΙ (όπως ΟΔ.45)</option></select></div>
+      <div class="field"><label>Υπόγεια: μετά το συγκεντρικό απευθείας 3x150Al+50Cu; <small>κανόνας γραφείου: όταν δεν επαρκεί το 4x50 Cu δεν μπαίνει XLPE 3x50 / 3x95 – εξαντλείται το 3x150Al+50Cu και μετά 2, 3 … παράλληλα</small></label><select id="m_x150"><option value="1" selected>ΝΑΙ (κανόνας γραφείου)</option><option value="0">ΟΧΙ (και 3x50 / 3x95 – μόνο με βάση ΟΔ.45)</option></select></div>
+      <div class="field"><label>Τοποθέτηση συγκεντρικού στον αέρα <small>ΟΔ.26 Πίν. V</small></label><select id="m_airpos"><option value="air">Ελεύθερα στον αέρα</option><option value="air_wall">Επιτοίχια</option></select></div>
+      <div class="field"><label>Θερμοκρασία αέρα (°C) <small>Πίν. VIII – βάση 50</small></label><select id="m_at"></select></div>
+      <div class="field"><label>Θερμοκρασία εδάφους (°C) <small>Πίν. VIII – βάση 25</small></label><select id="m_gt"></select></div>
+      <div class="field"><label>Θερμική αντίσταση εδάφους (K·m/W) <small>Πίν. XIII</small></label><select id="m_rho"></select></div>
+      <div class="field"><label>Καλώδια στο ίδιο χαντάκι <small>Πίν. XIV</small></label><select id="m_ntr"></select></div>
+      <div class="field"><label>Σωλήνες σε επαφή (> 6 m) <small>Πίν. XVI</small></label><select id="m_np"></select></div>
+      <div class="field wide"><label>Ζώνη επιφόρτισης (CS-3) <small>ελαφριά/μέση: πεδινές–παράλιες · βαριά: ορεινές (πάγος)</small></label><select id="m_zone"><option value="LM">Ελαφριά ή μέση επιφόρτιση</option><option value="H">Βαριά επιφόρτιση</option></select></div>
+      <div class="field wide"><label>Διέλευση καλωδίου παροχής πάνω από <small>ελάχιστο ύψος από το έδαφος (C-2/C-3)</small></label><select id="m_cross"></select></div>
+    </div>
+  </div>
+
+  <div class="outputs">
+    <div class="result" id="m_result">
+      <div class="status" id="m_status">ΑΠΟΤΕΛΕΣΜΑ</div>
+      <div class="big" id="m_big">—</div>
+      <div class="line" id="m_line1"></div>
+      <div class="line" id="m_line2"></div>
+      <div class="chips" id="m_chips"></div>
+      <div class="btnrow noprint">
+        <button class="btn goto" id="btn_goto_board" title="Άνοιγμα της καρτέλας «Μετρητική διάταξη» με τα στοιχεία αυτής της παροχής">Μετρητική διάταξη ›</button>
+        <button class="btn goto" id="btn_goto_form" title="Έντυπο ΔΕΔΔΗΕ «Οδηγίες κατασκευής παροχής – Δήλωση ετοιμότητας» προσυμπληρωμένο από τη μελέτη">Οδηγίες κατασκευής ›</button>
+        <button class="btn" id="btn_print">Εκτύπωση / PDF αναφοράς</button>
+        <button class="btn secondary" id="btn_copy">Αντιγραφή σύνοψης</button>
+        <button class="btn secondary" id="btn_reset">Επαναφορά</button>
+      </div>
+    </div>
+    <div class="card"><h2><span class="n">5</span> Φορτίο μετρητικής διάταξης (ΟΔ.22 §11.2 · ΟΔ.45 §1 & Πίν. ΙΙ)</h2><div class="factors" id="m_load"></div></div>
+    <div class="card"><h2><span class="n">6</span> Είδος παροχής (ΟΔ.45 §4)</h2><div id="m_supply"></div></div>
+    <div class="card"><h2><span class="n">7</span> Πίνακας επιλογής – I_z' για κάθε τρόπο εγκατάστασης</h2><div style="overflow-x:auto"><table class="grid" id="m_seltable"></table></div><div class="muted small" style="margin-top:6px">ΝΑΙ = επαρκεί για I_req · ΟΧΙ = ανεπαρκές · — = δεν εφαρμόζεται. Γαλάζιο = επιλεγμένο καλώδιο για την εφαρμοστέα περίπτωση. Τιμές ΟΔ.26 3η έκδ. 07/2025 – Πίν. V (συγκεντρικά EPR-SE1: έδαφος / αέρα ελεύθερα / επιτοίχια / σωλήνα > 6 m) και Πίν. IV (XLPE) × συντελεστές ΟΔ.26 (Πίν. VIII θερμοκρασίες, XIII έδαφος, XIV χαντάκι, XVI σωλήνες – με τις προεπιλογές = 1,00, δηλ. οι τιμές της ΟΔ.26 αυτούσιες).</div></div>
+    <div class="card"><h2><span class="n">8</span> Αυτόματη επιλογή ανά τρόπο εγκατάστασης</h2><div style="overflow-x:auto"><table class="grid" id="m_summary"></table></div></div>
+    <div class="card hidden" id="m_ugcard"><h2><span class="n">8β</span> Υπόγεια καλώδια ανά μετρητική διάταξη (κανόνας γραφείου)</h2><div style="overflow-x:auto"><table class="grid" id="m_ugtable"></table></div><ul class="notes" id="m_ugnotes"></ul><div class="muted small">Σε υπόγεια παροχή κάθε μετρητική διάταξη (διανομέας ή κυψέλη Νο 5–7 μόνη της) τροφοδοτείται με δικό της υπόγειο καλώδιο, διαστασιολογημένο από το φορτίο της (μετρητές της διάταξης, Kn ΟΔ.45 Πίν. ΙΙ για το πλήθος τους)· το πλήθος των υπόγειων καλωδίων ακολουθεί τις διατάξεις και τα φορτία και μπορεί να ξεπερνά τα 2 (n ≥ 3 παράλληλα του μεγαλύτερου XLPE όταν δεν επαρκούν 2). Για κάθε υπόγειο καλώδιο ο πελάτης τοποθετεί σιδηροσωλήνα γαλβανιζέ 4" × 1,50 m (βλ. Υλικά – υποχρεώσεις πελάτη).</div></div>
+    <div class="card"><h2><span class="n">9</span> Άνοιγμα L – στυλίσκος παροχής ή γάντζος (κανόνες γραφείου & ΔΕΗ CS-3)</h2><div class="factors" id="m_span"></div><div class="diagram" id="m_span_svg"></div><ul class="notes" id="m_span_notes"></ul></div>
+    <div class="card"><h2><span class="n">9β</span> Απαιτούμενος Μ/Σ &amp; ασφάλεια αναχώρησης από το πλήθος των παροχών (ΟΔ.22 · Εγχειρίδιο Μελετών §11.3)</h2><div class="factors" id="m_sizing"></div><div class="muted small" id="m_sizing_note"></div></div>
+    <div class="card"><h2><span class="n">9γ</span> Μετρητική διάταξη – πρόταση ΜΔ</h2><div class="factors" id="m_mdsum"></div><div class="muted small">Αναλυτικά (διατάξεις, εσοχή, σχέδιο, τυποποιήσεις) στην καρτέλα «Μετρητική διάταξη».</div></div>
+    <div class="card"><h2><span class="n">10</span> Αποστάσεις ασφαλείας καλωδίου παροχής (C-2/C-3, C-8/C-9, C-12, C-19)</h2><div style="overflow-x:auto"><table class="grid" id="m_clear"></table></div><div class="diagram" id="m_clear_svg"></div><details class="noprint"><summary>Σχήματα: κτίριο (C-8/C-9/C-12) και στύλος (C-19)</summary><div class="diagram" id="m_clear_svg2"></div><div class="diagram" id="m_clear_svg3"></div></details></div>
+    <div class="card"><h2><span class="n">11</span> Στοιχεία παροχών ΟΔ.22 (Πίν. 11.1 / 11.2)</h2><div style="overflow-x:auto"><table class="grid" id="m_od22"></table></div></div>
+    <div class="card"><h2><span class="n">12</span> Σημειώσεις / προειδοποιήσεις</h2><ul class="notes" id="m_notes"></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: BOARD ============================ -->
+<section class="tab" id="tab-board">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Παράμετροι κιβωτίων – κανόνες γραφείου</h2><div id="b_params"></div></div>
+    <div class="card"><h2><span class="n">5</span> Απαιτήσεις χώρου ΟΔ.45 (ΜΔ-1) &amp; κανόνες διατάξεων</h2><ul class="notes" id="b_reqs"></ul></div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="b_result"><div class="status">ΜΕΤΡΗΤΙΚΗ ΔΙΑΤΑΞΗ – ΕΣΟΧΗ &amp; ΤΥΠΟΠΟΙΗΜΕΝΗ ΜΔ</div><div class="big" id="b_big">—</div><div class="line" id="b_line1"></div><div class="line" id="b_line2"></div><div class="chips" id="b_chips"></div></div>
+    <div class="card"><h2><span class="n">2</span> Σχέδιο εσοχής – προσαρμόζεται στους εγκατεστημένους μετρητές</h2><div class="diagram" id="b_svg"></div><div class="muted small" id="b_sketch_txt"></div></div>
+    <div class="card"><h2><span class="n">3</span> Προτεινόμενη τυποποιημένη ΜΔ</h2><div id="b_md"></div><div class="related" id="b_related"></div></div>
+    <div class="card"><h2><span class="n">3β</span> Ελάχιστες αποστάσεις από πεζοδρόμιο &amp; δρόμο</h2><div class="diagram" id="b_dist_svg"></div><div class="muted small">Κιβώτια μετρητών: άνω σειρά πάντοτε στα 1,50 m, κάτω σειρά στα 0,80 m από το δάπεδο (ΟΔ.45 ΜΔ-7/ΜΔ-9)· καλώδιο παροχής ≥ 3,00 m πάνω από πεζοδρόμιο (C-3 II, ΜΔ-81) και ≥ 5,50 m πάνω από οδόστρωμα (C-3 I, ΜΔ-79)· στύλος ≥ 0,15 m από το άκρο του πεζοδρομίου (C-3 VI). <span class="fullonly">Πλήρεις πίνακες και εγκύκλιοι: καρτέλα «Πίνακες → Αποστάσεις ασφαλείας».</span></div></div>
+    <div class="card"><h2><span class="n">4</span> Υπολογισμός</h2><div class="factors" id="b_calc"></div><div style="overflow-x:auto;margin-top:8px"><table class="grid" id="b_arr"></table></div></div>
+    <div class="card hidden" id="b_ugcard"><h2><span class="n">4β</span> Υπόγεια καλώδια ανά διάταξη (κανόνας γραφείου)</h2><div style="overflow-x:auto"><table class="grid" id="b_ugtable"></table></div><ul class="notes" id="b_ugnotes"></ul></div>
+    <div class="card"><h2><span class="n">6</span> Τυποποιήσεις ΜΔ – σχέδια αναφοράς (ΟΔ.45 1982/1983/2007 · ΔΕΔΔΗΕ 2024–2026 · προσωρινές παροχές · οδηγίες 1984)</h2><div class="muted small">Πατήστε σε ένα σχέδιο για μεγέθυνση. Η προτεινόμενη ΜΔ και οι σχετικές σελίδες της επισημαίνονται.</div><div class="subtabs" id="b_gfilter"></div><div class="gallery" id="b_gallery"></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: MATERIALS ============================ -->
+<section class="tab" id="tab-vision">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Φωτογραφία πεδίου</h2>
+      <div class="field wide"><label>Λήψη ή επιλογή φωτογραφίας <small>κορυφή στύλου από κοντά – βραχίονες, μονωτήρες, γέφυρες, καλώδια ευδιάκριτα</small></label>
+        <div class="vbtns"><label class="vfile">📷 Λήψη φωτογραφίας<input type="file" id="vs_cam" accept="image/*" capture="environment"></label><label class="vfile">🖼 Από τη συλλογή / αρχείο<input type="file" id="vs_file" accept="image/*"></label></div></div>
+      <div class="field wide"><div id="vs_prev" class="vprev"><span class="muted small">— καμία φωτογραφία (μεταφορά & απόθεση ή επικόλληση εικόνας στον υπολογιστή) —</span></div></div>
+      <div class="field"><label>Εστίαση ανάλυσης</label><select id="vs_focus"><option value="auto">Αυτόματη (κέντρο + κορυφή)</option><option value="upper">Άνω τμήμα (κορυφή στύλου)</option><option value="whole">Ολόκληρη η εικόνα</option></select></div>
+      <div class="field"><label>Στύλος <small>για τους κωδικούς (+100 τσιμεντένιος)</small></label><select id="vs_pole"><option value="">Άγνωστο</option><option value="wood">Ξύλινος</option><option value="concrete">Τσιμεντένιος</option></select></div>
+      <div class="field wide"><button class="primary" id="vs_run" disabled>🔍 Αναγνώριση στη συσκευή</button> <span id="vs_status" class="small muted">φορτώστε φωτογραφία</span><div id="vs_barwrap" class="vbarwrap hidden"><div id="vs_bar"></div></div></div>
+    </div>
+    <div class="card"><h2><span class="n">3</span> AI agent (προαιρετικά – πιο αξιόπιστη αναγνώριση)</h2>
+      <div class="field wide"><label>Κλειδί API Anthropic (Claude) <small>μένει μόνο στη συσκευή· η φωτογραφία και ο κατάλογος κατασκευών αποστέλλονται στην υπηρεσία – απαιτείται σύνδεση</small></label><input id="vs_key" type="password" autocomplete="off" placeholder="sk-ant-…"></div>
+      <div class="field"><label>Μοντέλο</label><input id="vs_model" value="claude-sonnet-5-5"></div>
+      <div class="field wide"><button class="primary" id="vs_ai" disabled>🤖 Ανάλυση με AI</button> <button type="button" class="mini" id="vs_copy" disabled>Αντιγραφή πακέτου για AI chat</button> <span id="vs_aistatus" class="small muted"></span></div>
+    </div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="vs_result"><div class="status">ΑΝΑΓΝΩΡΙΣΗ ΚΑΤΑΣΚΕΥΗΣ ΑΠΟ ΦΩΤΟΓΡΑΦΙΑ – ΟΜΟΙΟΤΗΤΑ ΜΕ ΤΙΣ ΣΥΝΗΘΕΣΤΕΡΕΣ ΚΑΤΑΣΚΕΥΕΣ ΔΕΔΔΗΕ</div><div class="big" id="vs_big">—<small>φορτώστε φωτογραφία πεδίου και πατήστε «Αναγνώριση στη συσκευή»</small></div><div class="line" id="vs_line1"></div><div class="line" id="vs_line2"></div></div>
+    <div class="card"><h2><span class="n">2</span> Πιο όμοιες κατασκευές αναφοράς</h2><div id="vs_list" class="vlist"></div></div>
+    <div class="card"><h2>Πιθανός συνδυασμός κατασκευών στον στύλο (ΜΤ + ΧΤ)</h2><div id="vs_combo"><span class="muted small">—</span></div></div>
+    <div class="card hidden" id="vs_aicard"><h2>Απάντηση AI agent</h2><div id="vs_aiout"></div></div>
+    <div class="card"><h2>Σημειώσεις</h2><ul class="notes small" id="vs_notes"><li>Η αναγνώριση γίνεται στη συσκευή (χωρίς σύνδεση) με οπτική ομοιότητα προς τις φωτογραφίες των συνηθέστερων κατασκευών· ο AI agent είναι προαιρετικός.</li></ul></div>
+  </div>
+</div>
+</section>
+<section class="tab" id="tab-sym">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Συμμετοχή καταναλωτή ΧΤ – στοιχεία</h2>
+      <div class="field wide"><label>Πίνακας Τιμών (συντελεστές συμμετοχών ΧΤ &amp; ΜΤ)</label><select id="s_pset"></select><div class="small muted" id="s_pset_info" style="margin-top:4px"></div></div>
+      <div class="field wide"><label>Παροχές (μετρητές)</label><select id="s_src"><option value="MAIN">Οι παροχές της καρτέλας «Επιλογή παροχής»</option><option value="OWN">Ιδιαίτερη εισαγωγή στον πίνακα</option></select></div>
+      <div class="field wide"><div style="overflow-x:auto"><table class="grid" id="s_counts"></table></div><div class="small muted" style="margin-top:4px">Οικιακές = πόσες από τις παροχές κάθε μεγέθους είναι οικιακής χρήσης (κλιμακωτό Σα)· οι υπόλοιπες μη οικιακής (Σα = α·(N − 10))· οι μονοφασικές Νο 03 / Νο 05 δεν έχουν Σα. <button type="button" class="mini" id="s_res_all">όλες οικιακές</button> <button type="button" class="mini" id="s_res_none">καμία οικιακή</button></div></div>
+      <div class="field"><label>Διαμέρισμα χώρας</label><select id="s_dist"><option value="A">Α – Δήμοι Ν. Αττικής (Πίνακας 1)</option><option value="B">Β – πόλεις με υπόγεια δίκτυα (Πίνακας 2)</option><option value="C" selected>Γ – λοιπή χώρα</option></select></div>
+      <div class="field"><label>Είδος αίτησης</label><select id="s_kind"><option value="NEW">Νέα ηλεκτροδότηση</option><option value="TEMP">Προσωρινή (έως 12 μήνες) – ½ Σα</option><option value="INC">Αύξηση ισχύος υφιστάμενης παροχής</option><option value="TEMP2PERM">Μετατροπή προσωρινής ΧΤ σε οριστική ΧΤ</option></select></div>
+      <div class="field wide" id="s_old_wrap"><label>Υφιστάμενες παροχές πριν την αύξηση / προσωρινές</label><div style="overflow-x:auto"><table class="grid" id="s_old"></table></div></div>
+      <div class="field"><label>Απόσταση L από Σημείο ΧΤ (m) <small>ομάδα Α: Νο 03/05/1/2/3</small></label><input id="s_L" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Απόσταση R από Υ/Σ Διανομής (m) <small>ομάδα Β: Νο 4/5/6</small></label><input id="s_R" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Απόσταση Lκ από εναέριο δίκτυο ΜΤ (m) <small>εναλλακτικός τρόπος / Νο 7 (0 = δεν υπάρχει)</small></label><input id="s_Lk_oh" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Απόσταση Lκ από υπόγειο δίκτυο ΜΤ (m) <small>0 = δεν υπάρχει</small></label><input id="s_Lk_ug" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Πλήθος απαιτούμενων Υ/Σ Διανομής <small>ν·Υ στον εναλλακτικό τρόπο</small></label><input id="s_nys" type="number" min="1" max="9" step="1" value="1"></div>
+      <div class="field"><label>Ειδική περίπτωση</label><select id="s_special"><option value="NONE">Κανονικές συνθήκες</option><option value="EXC">Εξαιρετικές ιδιομορφίες – Σ = Σπ + Σα + Δ</option><option value="INACC">Απρόσιτη περιοχή – Σ = Σα + Δ</option></select></div>
+      <div class="field" data-show="special"><label>Δ – πραγματικές δαπάνες έργων (€)</label><input id="s_exc" type="number" min="0" step="100" value="0"></div>
+      <div class="field" data-show="no7"><label>Νο 7 «κατ’ εξαίρεση» <small>περιοχή με όριο τη Νο 6 (Πίνακας 3)</small></label><select id="s_no7exc"><option value="0">ΟΧΙ – όριο ισχύος η Νο 7</option><option value="1">ΝΑΙ – όριο η Νο 6</option></select></div>
+      <div class="field" data-show="no7"><label>Δαπάνη δικτύου ΜΤ & ΧΤ & εξοπλισμού Υ/Σ (€) <small>Νο 7 κατ’ εξαίρεση ή αύξηση σε Νο 7</small></label><input id="s_netcost" type="number" min="0" step="100" value="0"></div>
+      <div class="field" data-show="no7"><label>Αξία χώρου Υ/Σ (€) <small>0 αν παραχωρείται δωρεάν</small></label><input id="s_space" type="number" min="0" step="100" value="0"></div>
+      <div class="field"><label>Υπόγεια αντί εναέριας – διαφορά κόστους (€)</label><input id="s_ugdiff" type="number" min="0" step="50" value="0"></div>
+      <div class="field"><label>Απλή παροχή – μήκος καλωδίου παροχής (m) <small>L ≤ 30 m, καλώδιο 30–60 m → προσαύξηση 1Φ / 3Φ (Πίνακας Τιμών Νο 3)</small></label><input id="s_cable" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>ΦΟΠ – στύλοι (τεμ.)</label><input id="s_fop_p" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>ΦΟΠ – επιτοίχιο καλώδιο (m)</label><input id="s_fop_w" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Διακριτή μέτρηση νυκτερινών</label><select id="s_night"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field"><label>Λοιπή πρόσθετη επιβάρυνση (€)</label><input id="s_extra" type="number" min="0" step="50" value="0"></div>
+    </div>
+    <div class="card"><h2><span class="n">3</span> Συμμετοχή καταναλωτή ΜΤ – στοιχεία</h2>
+      <div class="field wide"><label>Περίπτωση</label><select id="v2_case"></select></div>
+      <div class="field" data-cases="NEW TEMP INC_LV INC_MV RECON SPECIAL TEMP2PERM LVTEMP2MV"><label>Συμφωνημένη ισχύς N (kVA) <small>στρογγυλεύεται στα 50 kVA</small></label><input id="v2_kva" type="number" min="0" step="10" value="400"></div>
+      <div class="field" data-cases="INC_MV RECON TEMP2PERM"><label>Προηγούμενη / προσωρινή ισχύς Νπρ (kVA)</label><input id="v2_nold" type="number" min="0" step="10" value="0"></div>
+      <div class="field" data-cases="NEW TEMP INC_LV INC_MV RECON SPECIAL TEMP2PERM LVTEMP2MV"><label>Απόσταση L από ζυγούς ΜΤ Υ/Σ ΥΤ/ΜΤ (km) <small>για το Σ2 (kVA·km)</small></label><input id="v2_len" type="number" min="0" step="0.1" value="5"></div>
+      <div class="field" data-cases="NEW TEMP INC_LV SPECIAL TEMP2PERM LVTEMP2MV"><label>Επέκταση δικτύου ΜΤ Lεπ (m)</label><input id="v2_lep" type="number" min="0" step="10" value="0"></div>
+      <div class="field" data-cases="NEW TEMP INC_LV IRR TEMP2PERM LVTEMP2MV"><label>Είδος επέκτασης</label><select id="v2_sup"><option value="OH">Εναέρια</option><option value="UG">Υπόγεια</option></select></div>
+      <div class="field" data-cases="NEW TEMP INC_LV RECON SPECIAL IRR DRAIN LVTEMP2MV"><label>Μετρητική διάταξη</label><select id="v2_met"><option value="P43">Τύπος Α – σε στύλο P-43 (εξωτερική μέτρηση)</option><option value="BKI">Τύπος Β – εσωτερική μέτρηση, πίνακας BK1</option></select></div>
+      <div class="field wide" data-cases="NEW TEMP INC_LV RECON SPECIAL LVTEMP2MV"><label>Μέσα προστασίας</label><select id="v2_prot"></select></div>
+      <div class="field" data-cases="NEW TEMP INC_LV RECON SPECIAL IRR DRAIN LVTEMP2MV"><label>Εγκαταστάσεις ορίου – σημείου παροχής (€) <small>τύπος Β</small></label><input id="v2_bextra" type="number" min="0" step="50" value="0"></div>
+      <div class="field" data-cases="INC_MV RECON TEMP2PERM"><label>Πραγματική δαπάνη παροχής Δπ (€) <small>έργο αλλαγών / επαναλειτουργίας</small></label><input id="v2_dpact" type="number" min="0" step="50" value="0"></div>
+      <div class="field" data-cases="SPECIAL DRAIN"><label>Δεπ – δαπάνη πραγματικού έργου επέκτασης (€)</label><input id="v2_dep" type="number" min="0" step="100" value="0"></div>
+      <div class="field" data-cases="RECON"><label>Έτη από τη διακοπή ν (ακέραια)</label><input id="v2_years" type="number" min="0" max="60" step="1" value="1"></div>
+      <div class="field" data-cases="RECON"><label>Η παροχή έχει αποξηλωθεί;</label><select id="v2_removed"><option value="1">ΝΑΙ – Σπ = Δπ καταλόγου</option><option value="0">ΟΧΙ – Σπ = δαπάνες επαναλειτουργίας</option></select></div>
+      <div class="field" data-cases="INC_LV LVTEMP2MV"><label>Υφιστάμενη παροχή ΧΤ</label><select id="v2_lvno"></select></div>
+      <div class="field" data-cases="INC_LV LVTEMP2MV"><label>Πλήθος παροχών ΧΤ</label><input id="v2_lvn" type="number" min="1" max="9" step="1" value="1"></div>
+      <div class="field" data-cases="INC_LV LVTEMP2MV"><label>Χρήση παροχής ΧΤ <small>διαμέρισμα: όπως στην ΧΤ</small></label><select id="v2_lvuse"><option value="NONRES">Μη οικιακή</option><option value="RES">Οικιακή</option></select></div>
+      <div class="field wide" data-cases="IRR DRAIN"><label>Αντλιοστάσια (ομάδα ίδιου φορέα – έως 5)</label><div style="overflow-x:auto"><table class="grid" id="v2_st"></table></div></div>
+      <div class="field"><label>Πρόσθετη επιβάρυνση (€) <small>διαφορετικός τρόπος ηλεκτροδότησης κ.λπ.</small></label><input id="v2_extra" type="number" min="0" step="50" value="0"></div>
+      <div class="field"><label>Συντελεστής Χ</label><input id="v2_x" type="number" min="0" step="0.1" value="1"></div>
+      <div class="field wide" id="v2_meter_wrap"><label>Κόστος μετρητή ΜΤ (€) – Ε-114/2026 <small>εξαιρείται από το 50% και καταβάλλεται πλήρως· περιλαμβάνεται στη δαπάνη παροχής Δπ · 0 = δεν διαχωρίζεται</small></label><input id="v2_meter" type="number" min="0" step="50" value="0"></div>
+    </div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="s_result"><div class="status">ΣΥΜΜΕΤΟΧΗ ΚΑΤΑΝΑΛΩΤΗ ΧΤ – Σ = Σπ + Σα + Σδ (Σύστημα Συμμετοχών ΧΤ – ΥΑ 6636/2007 · Πίνακας Τιμών 2026 Ε-114/2026 ή 2007)</div><div class="big" id="s_big">—</div><div class="line" id="s_line1"></div><div class="line" id="s_line2"></div></div>
+    <div class="card"><h2><span class="n">2</span> Ανάλυση συμμετοχής ΧΤ</h2><div class="factors" id="s_facts"></div><div style="overflow-x:auto"><table class="grid" id="s_rows"></table></div><div style="overflow-x:auto;margin-top:8px"><table class="grid" id="s_sd"></table></div><ul class="notes small" id="s_notes"></ul></div>
+    <div class="result" id="s2_result"><div class="status">ΣΥΜΜΕΤΟΧΗ ΚΑΤΑΝΑΛΩΤΗ ΜΤ – Σ = Χ·(Σπ + Σεπ + Σεν) · 2026: 50% του κόστους σύνδεσης + πλήρες κόστος μετρητή (Ε-114/2026)</div><div class="big" id="s2_big">—</div><div class="line" id="s2_line1"></div><div class="line" id="s2_line2"></div></div>
+    <div class="card"><h2><span class="n">4</span> Ανάλυση συμμετοχής ΜΤ</h2><div class="factors" id="s2_facts"></div><div style="overflow-x:auto"><table class="grid" id="s2_rows"></table></div><ul class="notes small" id="s2_notes"></ul></div>
+    <div class="card"><h2>Πίνακας Τιμών – συντελεστές 2007 → 2026 (ΡΑΑΕΥ Ε-114/2026, ΦΕΚ 3954/Β/1-7-2026)</h2><div style="overflow-x:auto"><table class="grid" id="s_ptable"></table></div><ul class="notes small" id="s_pnotes"></ul></div>
+    <div class="card"><h2>Κανόνες – Σύστημα υπολογισμού συμμετοχών ΧΤ / ΜΤ</h2><ul class="notes" id="s_rules"></ul></div>
+  </div>
+</div>
+</section>
+<section class="tab" id="tab-form">
+  <div class="card v3wrap">
+    <div class="v3head"><div><div class="v3org">ΔΙΑΧΕΙΡΙΣΤΗΣ ΕΛΛΗΝΙΚΟΥ ΔΙΚΤΥΟΥ ΔΙΑΝΟΜΗΣ ΗΛΕΚΤΡΙΚΗΣ ΕΝΕΡΓΕΙΑΣ Α.Ε.</div><h2 class="v3title">ΟΔΗΓΙΕΣ ΚΑΤΑΣΚΕΥΗΣ ΠΑΡΟΧΗΣ – ΔΗΛΩΣΗ ΕΤΟΙΜΟΤΗΤΑΣ</h2><div class="muted small noprint">Το έντυπο ΔΕΔΔΗΕ (έκδοση V3) προσυμπληρωμένο από τη μελέτη της καρτέλας «Επιλογή παροχής» / «Μετρητική διάταξη» – ελέγξτε και συμπληρώστε τα κενά πεδία πριν την παράδοση στον πελάτη.</div></div></div>
+    <div class="fields noprint" style="margin:8px 0">
+      <div class="field"><label>Αρ. Παροχής / Διάταξης</label><input id="f3_no" type="text" placeholder="π.χ. 1234567-01"></div>
+      <div class="field"><label>Σύστημα γείωσης (IV)</label><select id="f3_earth"><option value="neutral">i) Ουδετέρωση</option><option value="direct">ii) Άμεση γείωση</option><option value="rcd">iii) Ρελέ διαφυγής – άμεση γείωση</option></select></div>
+      <div class="field"><label>Παρουσία επισκόπησης</label><input id="f3_present" type="text" placeholder="ονοματεπώνυμο"></div>
+      <div class="field wide"><label>Παρατηρήσεις (V) – πρόσθετες</label><input id="f3_notes" type="text" placeholder="προαιρετικά"></div>
+    </div>
+    <div id="form_v3" class="v3form"></div>
+    <div class="btnrow noprint"><button class="btn" id="btn_print_form">Εκτύπωση / PDF εντύπου</button><button class="btn goto" id="btn_form_back">‹ Επιλογή παροχής</button></div>
+  </div>
+</section>
+<section class="tab" id="tab-mat">
+  <div class="card"><h2>Πίνακας υλικών παροχέτευσης – τοποθέτηση & αποξήλωση <span class="muted" style="text-transform:none;letter-spacing:0">(έντυπο ΔΕΔΔΗΕ Α.Π. 20631525)</span></h2>
+    <div class="layout2">
+      <div>
+        <h3 class="tt">Παράμετροι μήκους καλωδίου & γείωσης <span>κίτρινα</span></h3>
+        <div id="x_params"></div>
+        <div class="field"><label>Περιοχή</label><input id="x_area" type="text"></div>
+        <div class="field"><label>Α.Π.</label><input id="x_ap" type="text"></div>
+      </div>
+      <div>
+        <h3 class="tt">Υφιστάμενη εγκατάσταση προς αποξήλωση <span>από αυτά υπολογίζεται η στήλη «ΓΙΑ ΑΠΟΜΑΚΡΥΝΣΗ»</span></h3>
+        <div class="tw"><table class="grid loadgrid" id="x_rem_counts"></table></div>
+        <div id="x_rem_fields"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="muted small" id="x_info"></div>
+    <div class="layout2">
+      <div><h3 class="tt">Υλικά στήριξης</h3><div style="overflow-x:auto"><table class="grid" id="x_sup"></table></div></div>
+      <div><h3 class="tt">Κύρια υλικά παροχέτευσης</h3><div style="overflow-x:auto"><table class="grid" id="x_main"></table></div></div>
+    </div>
+    <h3 class="tt" style="margin-top:14px">Υποχρεώσεις πελάτη (κανόνες γραφείου) – σιδηροσωλήνας 4" ανά υπόγειο καλώδιο · γείωση πελάτη ανά μετρητική διάταξη</h3>
+    <div style="overflow-x:auto"><table class="grid" id="x_cust"></table></div>
+    <ul class="notes" id="x_cust_notes"></ul>
+    <div class="muted small" style="margin-top:8px">ΑΠΑΙΤΟΥΝΤΑΙ = υπολογισμός τοποθέτησης · ΓΙΑ ΑΠΟΜΑΚΡΥΝΣΗ = υπολογισμός αποξήλωσης από τα στοιχεία της υφιστάμενης εγκατάστασης · ΤΟΠΟΘΕΤΗΘΗΚΑΝ / ΑΠΟΜΑΚΡΥΝΘΗΚΑΝ = συμπληρώνονται από το συνεργείο (αποθηκεύονται τοπικά). Μήκος καλωδίου = L + κάθοδος + διάταξη + τερματισμοί. Γάντζος βαρέως τύπου / συρματόσχοινο από τον έλεγχο CS-3.</div>
+    <div class="btnrow noprint"><button class="btn" id="btn_print_mat">Εκτύπωση πίνακα υλικών</button></div>
+  </div>
+</section>
+
+<!-- ============================ TAB: FEEDER ============================ -->
+<section class="tab" id="tab-feeder">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Στοιχεία αναχώρησης ΧΤ</h2>
+      <div class="field"><label>Μ/Σ διανομής (kVA) <small>Πίν. Β2-8 / Β2-9Α</small></label><select id="f_kva"></select></div>
+      <div class="field wide"><label>Αγωγός / καλώδιο αναχώρησης <small>I_max, R, X από Πίν. Β2-3/Β2-4/Β2-9</small></label><select id="f_cond"></select></div>
+      <div class="field"><label>Υφιστάμενο φορτίο αναχώρησης I1 (A/φάση)</label><input id="f_i1" type="number" min="0" step="1" value="80"></div>
+      <div class="field wide"><label>Νέο φορτίο I2</label><select id="f_src"><option value="MAIN">Από την καρτέλα «Επιλογή παροχής» (I_B)</option><option value="MANUAL">Χειροκίνητη τιμή</option></select></div>
+      <div class="field"><label>Νέο φορτίο I2 χειροκίνητα (A/φάση)</label><input id="f_i2" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label>Μήκος αναχώρησης έως το σημείο σύνδεσης (m)</label><input id="f_L" type="number" min="0" step="1" value="120"></div>
+      <div class="field"><label>Υφιστάμενη ασφάλεια αναχώρησης (A) <small>— = νέα ασφάλεια από το εργαλείο</small></label><select id="f_fuse"></select></div>
+      <div class="field"><label>Συντελεστής μείωσης αγωγού k</label><input id="f_kd" type="number" min="0.3" max="1.2" step="0.01" value="1"></div>
+      <div class="field"><label>Υφιστάμενο φορτίο Μ/Σ – όλες οι αναχωρήσεις (A/φάση) <small>κενό = ίσο με της αναχώρησης</small></label><input id="f_itr" type="number" min="0" step="1" placeholder="—"></div>
+      <div class="field"><label>συνφ φορτίων</label><input id="f_cos" type="number" min="0.5" max="1" step="0.01" value="0.9"></div>
+      <div class="field"><label>Όριο πτώσης τάσης (%) <small>4 αστικά · 6 αρδευτικά</small></label><input id="f_du" type="number" min="1" max="10" step="0.5" value="4"></div>
+    </div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="f_result"><div class="status" id="f_status">ΕΛΕΓΧΟΣ ΑΝΑΧΩΡΗΣΗΣ</div><div class="big" id="f_big">—</div><div class="line" id="f_line1"></div><div class="chips" id="f_chips"></div></div>
+    <div class="card"><h2><span class="n">2</span> Έλεγχοι (Εγχειρίδιο §11.3 / ΟΔ.22)</h2><div style="overflow-x:auto"><table class="grid" id="f_table"></table></div></div>
+    <div class="card"><h2><span class="n">3</span> Μέχρι πόσες παροχές ανά τύπο μπορεί ακόμη να δεχθεί η αναχώρηση</h2><div class="factors" id="f_capinfo"></div><div style="overflow-x:auto;margin-top:8px"><table class="grid" id="f_cap"></table></div><div class="muted small" style="margin-top:6px">n_max = μέγιστο n ώστε για κάθε m ≤ n: m × (A/φάση) × Kn(m) ≤ διαθέσιμο ρεύμα (ταυτοχρονισμός ΟΔ.45 Πίν. ΙΙ, 1Φ: A/3 ανά φάση). Για παροχές ενός τύπου – για μικτές διατάξεις χρησιμοποιήστε το I_B της καρτέλας «Επιλογή παροχής».</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: OVERHEAD SUBSTATIONS / TRANSFORMERS ============================ -->
+<section class="tab" id="tab-ys">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Εναέριος Υ/Σ – Μ/Σ διανομής</h2>
+      <div class="field"><label>Ισχύς Μ/Σ (kVA) <small>τυποποιημένοι 50 / 100 / 160 / 250 / 400 / 630 / 1000 (παλαιοί 15 / 25 / 75 / 150 / 200)</small></label><select id="y_kva"></select></div>
+      <div class="field"><label>Τάση δικτύου ΜΤ (kV)</label><select id="y_kv"><option value="20">20</option><option value="15">15</option><option value="6.6">6,6</option></select></div>
+      <div class="field wide"><label>Είδος ασφαλειών ΜΤ <small>εναέριος Υ/Σ: κατά κανόνα εκτόνωσης· κόνεως σε πολυσύχναστες θέσεις / μεγάλη ισχύ βραχυκύκλωσης</small></label><select id="y_fk"><option value="EXP">Ασφάλειες εκτόνωσης – τηκτό ταχείας τήξης Κ</option><option value="POWDER">Ασφάλειες κόνεως (κλειστού τύπου)</option></select></div>
+      <div class="field wide"><label>Ανάντη μέσο προστασίας της γραμμής ΜΤ <small>ορίζει το τηκτό Τ της διακλάδωσης (ΟΔ.21 §11α)</small></label><select id="y_up"></select></div>
+      <div class="field"><label>Φορτίο διακλάδωσης ΜΤ (A) <small>προαιρετικό – για τον κανόνα Δ/Α (ΟΔ.21 §9γ)</small></label><input id="y_bl" type="number" min="0" step="1" value=""></div>
+      <div class="field"><label>Μεμονωμένος καταναλωτής; <small>ένας μόνο, παροχή Νο5–7</small></label><select id="y_single"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field"><label>Παροχή μεμονωμένου καταναλωτή</label><select id="y_sup"><option value="">—</option><option value="Νο 5">Νο 5</option><option value="Νο 6">Νο 6</option><option value="Νο 7">Νο 7</option></select></div>
+      <div class="field"><label>Υπάρχει δίκτυο ΧΤ μεταξύ Υ/Σ και καταναλωτή;</label><select id="y_lvnet"><option value="1">ΝΑΙ</option><option value="0">ΟΧΙ</option></select></div>
+      <div class="field"><label>Υ/Σ εσωτερικού χώρου; <small>ΝΑΙ → υποχρεωτικά κόνεως</small></label><select id="y_indoor"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+    </div>
+    <div class="card"><h2><span class="n">5</span> Κανόνες (Εγχειρίδιο §10.6 · ΟΔ.22 · ΟΔ.21 · ΟΔ.41)</h2><div class="subtabs" id="y_rulecats"></div><ul class="notes" id="y_rules"></ul></div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="y_result"><div class="status">ΑΣΦΑΛΕΙΕΣ ΜΤ ΠΡΟΣΤΑΣΙΑΣ Μ/Σ – ΕΝΑΕΡΙΟΣ Υ/Σ</div><div class="big" id="y_big">—</div><div class="line" id="y_line1"></div><div class="line" id="y_line2"></div><div class="chips" id="y_chips"></div></div>
+    <div class="card"><h2><span class="n">2</span> Επιλογή &amp; έλεγχοι</h2><div class="factors" id="y_facts"></div><ul class="notes" id="y_notes"></ul></div>
+    <div class="card"><h2><span class="n">3</span> Πίνακας Β2-8 (Εγχειρίδιο = ΟΔ.22 Πίν. Ι) – ασφάλειες ΜΤ ανά ισχύ &amp; τάση, μέγιστη ασφάλεια ΧΤ</h2><div style="overflow-x:auto"><table class="grid" id="y_b28"></table></div><div class="muted small" id="y_b28_note"></div></div>
+    <div class="card"><h2><span class="n">4</span> ΟΔ.21 – ασφάλειες διακλαδώσεων Τ, συνεργασία, Δ/ΑΕ, κατηγορίες γραμμών · Β2-14 · ρεύμα ζεύξης καταναλωτή · Μ/Σ γενικά</h2><div id="y_od21"></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: VOLTAGE DROP ============================ -->
+<section class="tab" id="tab-vd">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Γραμμή – τάση, συνφ, όριο</h2>
+      <div class="field wide"><label>Τάση γραμμής <small>ΧΤ: Πίν. Β2-7 · 20 kV: Β2-6 · 15 kV: Β2-6Α · 6,6 kV: τύπος Κ = 10U²/(Rσυνφ+Xημφ)</small></label><select id="vd_volt"></select></div>
+      <div class="field"><label>Κοινό συνφ φορτίων <small>0,9 γενικά (δυσμενέστερο) · 0,75 αμιγή αρδευτικά</small></label><select id="vd_cos"></select></div>
+      <div class="field"><label>Όριο πτώσης τάσης (%) <small>ΧΤ: 4 αστικά / 6 αρδευτικά · ΜΤ: κορμός 5, διακλάδωση 3, σύνολο 8 (§10.4.1)</small></label><input id="vd_lim" type="number" min="0.5" max="15" step="0.5" value="4"></div>
+      <div class="field"><label>Μονάδα φορτίων κόμβων <small>A → kVA με √3·U·I (3Φ), 230·I (1Φ), 460·I (2Φ)</small></label><select id="vd_unit"><option value="kVA">kVA</option><option value="A">A (ένταση)</option></select></div>
+      <div class="field"><label>Μ/Σ τροφοδότησης (kVA) <small>μόνο ΧΤ: ουδετέρωση – Ιβρ 1Φ στο άκρο με RM/XM Πίν. Β2-9Α (όπως ο Πυθαγόρας / GKDNS)</small></label><select id="vd_tr"></select></div>
+      <div class="field"><label>Παροχή 2x6 Cu στο άκρο (m) <small>για το βραχυκύκλωμα – Β2-10 (30 m)</small></label><input id="vd_lp" type="number" min="0" step="5" value="30"></div>
+      <div class="muted small" style="margin-top:6px">Τα τμήματα της γραμμής ορίζονται στον πίνακα δεξιά (από τον Μ/Σ / την αρχή προς το άκρο). Φορτίο κόμβου = το φορτίο στο τέλος του τμήματος· κάθε τμήμα διαρρέεται από το άθροισμα των φορτίων του κόμβου του και όλων των επόμενων (ακτινική γραμμή). «Κατανεμημένο» = ομοιόμορφα κατανεμημένο φορτίο στο μήκος του τμήματος (π.τ. = P·L/2K). Φάσεις (μόνο ΧΤ): 1Φ → Κ/6, 2Φ → Κ/3 (παρατηρήσεις Πίν. Β2-7).</div>
+    </div>
+    <div class="card"><h2><span class="n">6</span> Κανόνες – Εγχειρίδιο Μελετών §10.3 – §10.5, §10.7</h2><ul class="notes" id="vd_rules"></ul></div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="vd_result"><div class="status">ΠΤΩΣΗ ΤΑΣΗΣ – ΕΓΧΕΙΡΙΔΙΟ ΜΕΛΕΤΩΝ §10.3 (πτ% = kVA·km / K)</div><div class="big" id="vd_big">—</div><div class="line" id="vd_line1"></div><div class="line" id="vd_line2"></div><div class="chips" id="vd_chips"></div></div>
+    <div class="card"><h2><span class="n">2</span> Τμήματα γραμμής – από τον Μ/Σ / την αρχή προς το άκρο</h2>
+      <div class="tw"><table class="grid loadgrid vdgrid" id="vd_secs"></table></div>
+      <div class="btnrow noprint"><button id="vd_add">+ Τμήμα</button><button id="vd_del">− Τελευταίο</button><button id="vd_clear">Καθαρισμός</button><button id="vd_ex1">Παράδειγμα ΧΤ</button><button id="vd_ex2">Παράδειγμα ΜΤ (§10.3)</button></div>
+    </div>
+    <div class="card"><h2><span class="n">3</span> Ανάλυση ανά τμήμα</h2><div class="tw"><table class="grid" id="vd_table"></table></div><div class="factors" id="vd_facts"></div><ul class="notes" id="vd_notes"></ul></div>
+    <div class="card"><h2><span class="n">4</span> Εναλλακτικοί αγωγοί – ίδια τμήματα &amp; φορτία με έναν αγωγό σε όλη τη γραμμή</h2><div class="tw"><table class="grid" id="vd_alts"></table></div><div class="muted small">Γαλάζιο = ο πρώτος αγωγός του πίνακα που ικανοποιεί το όριο χωρίς υπέρβαση της επιτρεπόμενης έντασης στην αρχή της γραμμής.</div></div>
+    <div class="card"><h2><span class="n">5</span> Πίνακες Β2-6 / Β2-6Α / Β2-7 – συντελεστές Κ (kVA·km ανά 1 % πτώσης τάσης)</h2><div class="tw"><table class="grid" id="vd_ktable"></table></div><div class="muted small" id="vd_knote"></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: LV NEUTRALISATION – short-circuit condition (Εγχ. §10.7 / ΟΔ.22) + earthing (ΟΔ.119) ============================ -->
+<section class="tab" id="tab-earth">
+<div class="subtabs noprint" id="e_subtabs"><button data-es="nz" class="active">Α. Συνθήκη ουδετέρωσης – Ιβρ ≥ 3·Ιασφ (όπως στον Πυθαγόρα)</button><button data-es="od119">Β. Γειώσεις δικτύου ΧΤ – ΟΔ.119</button></div>
+<div class="esub" data-es="nz">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Μ/Σ – καλώδιο παροχής – ασφάλεια</h2>
+      <div class="field wide"><label>Μ/Σ ΜΤ/ΧΤ (kVA) <small>RM, XM από Πίν. Β2-9Α · μέγιστη ασφάλεια ΧΤ από Πίν. Β2-8</small></label><select id="nz_tr"></select></div>
+      <div class="field wide"><label>Καλώδιο παροχής <small>μονοφασικό βραχυκύκλωμα φάσης–ουδετέρου στο τέρμα της παροχής · R ανά αγωγό στους 45 °C (2x6 Cu: 3,41 Ω/km, Β2-10)</small></label><select id="nz_sup"></select></div>
+      <div class="field"><label>Μήκος παροχής (m) <small>Πίν. Β2-10: 30 m</small></label><input id="nz_lp" type="number" min="0" step="5" value="30"></div>
+      <div class="field"><label>Ασφάλεια αναχώρησης προς έλεγχο (A) <small>προαιρετικά – 3·Ιασφ ≤ Ιβρ;</small></label><select id="nz_fuse"></select></div>
+      <div class="muted small" style="margin-top:6px">Τα τμήματα της γραμμής ΧΤ ορίζονται στον πίνακα δεξιά, από τον Μ/Σ προς το άκρο (αγωγός + μήκος). Για κάθε τμήμα: R = 2·L·R′, X = 2·L·X′ (φάση + ουδέτερος, Πίν. Β2-9)· στο τέλος προστίθεται η παροχή· Z = √(R² + X²), Ιβρ = 230 / Z. Συνθήκη: Ιβρ ≥ 3 × ονομαστική ασφάλεια. Αντιστάσεις Μ/Σ, αγωγών και παροχών από τους πίνακες του Εγχειριδίου – όπως στην οθόνη «Ουδετέρωση ΧΤ» του Πυθαγόρα.</div>
+      <div class="btnrow noprint"><button id="nz_ex1">Παράδειγμα Εγχειριδίου §10.7</button><button id="nz_ex2">Παράδειγμα: χωριό 100 kVA</button><button id="nz_ex3">Παράδειγμα: υπόγειο 630 kVA</button></div>
+    </div>
+    <div class="card"><h2><span class="n">5</span> Κανόνες – Εγχειρίδιο Μελετών §10.7 · ΟΔ.22 · ΚΕΗΕ άρθρο 19</h2><ul class="notes" id="nz_rules"></ul></div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="nz_result"><div class="status">ΣΥΝΘΗΚΗ ΟΥΔΕΤΕΡΩΣΗΣ – ΜΟΝΟΦΑΣΙΚΟ ΒΡΑΧΥΚΥΚΛΩΜΑ ΦΑΣΗΣ–ΟΥΔΕΤΕΡΟΥ ΣΤΟ ΤΕΡΜΑ ΤΗΣ ΠΑΡΟΧΗΣ (ΕΓΧ. §10.7 / ΟΔ.22)</div><div class="big" id="nz_big">—</div><div class="line" id="nz_line1"></div><div class="line" id="nz_line2"></div><div class="chips" id="nz_chips"></div></div>
+    <div class="card"><h2><span class="n">2</span> Τμήματα γραμμής ΧΤ (από τον Μ/Σ προς το άκρο)</h2>
+      <div class="tw"><table class="grid loadgrid vdgrid" id="nz_secs"></table></div>
+      <div class="btnrow noprint"><button id="nz_add">+ Προσθήκη τμήματος</button><button id="nz_del">− Τελευταίο</button><button id="nz_clear">Καθαρισμός</button><button id="nz_fromvd" data-needs="vd">Τμήματα από την «Πτώση τάσης»</button></div>
+    </div>
+    <div class="card"><h2><span class="n">3</span> Υπολογισμός – R, X, Z, Ιβρ και ασφάλεια</h2><div class="factors" id="nz_facts"></div><ol class="steps" id="nz_steps"></ol><ul class="notes" id="nz_notes"></ul></div>
+    <div class="card"><h2><span class="n">4</span> Πίνακας Β2-10 – μέγιστο μήκος γραμμής ενιαίας διατομής (m) ανά ασφάλεια αναχώρησης, για τον Μ/Σ και την παροχή που επιλέχθηκαν</h2><div class="tw"><table class="grid" id="nz_lmax"></table></div><div class="muted small" id="nz_lmaxnote" style="margin-top:6px"></div></div>
+  </div>
+</div>
+</div>
+<div class="esub hidden" data-es="od119">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Δίκτυο ΧΤ – Υ/Σ – γειώσεις</h2>
+      <div class="field wide"><label>Υ/Σ ΜΤ/ΧΤ – τροφοδότηση <small>ορίζει το όριο κοινής γείωσης (1 Ω / 2 Ω) και το σχήμα</small></label><select id="e_ys"></select></div>
+      <div class="field"><label>Όργανο ζεύξεως ΜΤ με χειριστήριο προσιτό από το έδαφος; <small>Δ/Α, διακόπτης → πλέγμα γείωσης</small></label><select id="e_gs"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field"><label>Ασφάλειες ≤ 30 A πριν από κάθε σημείο υπερπηδήσεως ΜΤ; <small>επιτρέπει κοινή γείωση έως 2 Ω</small></label><select id="e_sf"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field"><label>Συνολικό μήκος εναέριου δικτύου ΧΤ (m) <small>κύριες γραμμές + διακλαδώσεις</small></label><input id="e_L" type="number" min="0" step="10" value="600"></div>
+      <div class="field"><label>Τέρματα κυρίων γραμμών &amp; διακλαδώσεων <small>γείωση υποχρεωτική σε κάθε τέρμα</small></label><input id="e_ends" type="number" min="0" step="1" value="2"></div>
+      <div class="field"><label>Στύλοι εναέριου δικτύου ΧΤ <small>το πολύ ένα ηλεκτρόδιο ανά στύλο</small></label><input id="e_poles" type="number" min="0" step="1" value="16"></div>
+      <div class="field"><label>Παροχές <small>ηλεκτρόδιο στο άκρο κάθε παροχής (ΜΔ-1)</small></label><input id="e_sup" type="number" min="0" step="1" value="20"></div>
+      <div class="field"><label>Μέση αντίσταση ενός ηλεκτροδίου Re (Ω) <small>δειγματοληπτική μέτρηση (ΟΔ.25) – κενό = εκτίμηση από το έδαφος</small></label><input id="e_re" type="number" min="0" step="1" value="30"></div>
+      <div class="field"><label>Έδαφος – ειδική αντίσταση ρ <small>μόνο αν δεν δοθεί Re: ηλεκτρόδιο 2,5 m / Ø 20 mm · Re = ρ/(2πl)·ln(4l/d) ≈ 0,4·ρ (ΟΔ.48 §15 / ΟΔ.25)</small></label><select id="e_rho"></select></div>
+      <div class="field"><label>Αντίσταση ηλεκτροδίων καταναλωτών (Ω) <small>κενό = ίση με Re</small></label><input id="e_resup" type="number" min="0" step="1" placeholder="—"></div>
+      <div class="field"><label>Ηλεκτρόδια γείωσης ουδετέρου στον Υ/Σ <small>R = Re / n</small></label><input id="e_ysrods" type="number" min="1" step="1" value="3"></div>
+      <div class="field"><label>Αντίσταση γείωσης ουδετέρου στον Υ/Σ (Ω) <small>κενό = Re / n · μετρημένη τιμή αν υπάρχει</small></label><input id="e_rys" type="number" min="0" step="0.1" placeholder="—"></div>
+      <div class="field"><label>Υπόγεια καλώδια με μεταλλικό μανδύα στον Υ/Σ (m) <small>ΜΤ ή ΧΤ, χωριστά χαντάκια – &gt; 1200 m → κοινή γείωση</small></label><input id="e_sheath" type="number" min="0" step="50" value="0"></div>
+      <div class="field"><label>Υποχρεωτικές γειώσεις δικτύου – χειροκίνητα <small>κενό = αυτόματα (τέρματα + ανά 200 m)</small></label><input id="e_netovr" type="number" min="0" step="1" placeholder="—"></div>
+      <div class="btnrow noprint"><button id="e_ex1">Παράδειγμα: Υ/Σ Ω.Σ. χωριό</button><button id="e_ex2">Παράδειγμα: ξύλινοι στύλοι, βραχώδες</button><button id="e_ex3">Παράδειγμα: υπόγειο δίκτυο</button></div>
+    </div>
+    <div class="card"><h2><span class="n">5</span> Κανόνες – ΟΔ.119 «Γειώσεις δικτύων διανομής» · ΚΕΗΕ άρθρο 19</h2><ul class="notes" id="e_rules"></ul></div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="e_result"><div class="status">ΟΥΔΕΤΕΡΩΣΗ ΔΙΚΤΥΟΥ ΧΤ – ΟΔ.119 §2–§3 (ΚΕΗΕ ΑΡΘΡΟ 19, ΣΥΝΘΗΚΕΣ 3–4)</div><div class="big" id="e_big">—</div><div class="line" id="e_line1"></div><div class="line" id="e_line2"></div><div class="chips" id="e_chips"></div></div>
+    <div class="card"><h2><span class="n">2</span> Διαδικασία ελέγχου (§3) &amp; απαιτούμενες γειώσεις</h2><ol class="steps" id="e_steps"></ol><ul class="notes" id="e_measures"></ul></div>
+    <div class="card"><h2><span class="n">3</span> Αντιστάσεις γειώσεως – εκτίμηση (παράλληλη σύνδεση ηλεκτροδίων, Rολ = R/N)</h2><div class="factors" id="e_facts"></div><div class="muted small" style="margin-top:6px" id="e_note"></div></div>
+    <div class="card"><h2><span class="n">4</span> Σχήματα ΟΔ.119 – διατάξεις γειώσεων Υ/Σ ΜΤ/ΧΤ</h2>
+      <div class="field wide"><label>Σχήμα <small>προτείνεται αυτόματα από το αποτέλεσμα</small></label><select id="e_fig"></select></div>
+      <div class="muted small" id="e_figcap" style="margin:6px 0"></div>
+      <div class="figwrap"><img id="e_figimg" alt="Σχήμα ΟΔ.119" loading="lazy"></div>
+      <div style="overflow-x:auto;margin-top:10px"><table class="grid" id="e_figtable"></table></div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ============================ TAB: PYTHAGORAS ============================ -->
+<section class="tab" id="tab-pyth">
+  <div class="card" style="margin-bottom:10px"><h2>Πυθαγόρας – επιλογή στύλων γραμμών διανομής (ΔΕΔΔΗΕ)</h2>
+    <div class="muted small">Αστικές γραμμές ανά κατασκευή (ξύλινοι / τσιμεντένιοι στύλοι, μία ή δύο διευθύνσεις) και έλεγχος υπεραστικού στύλου (Φύλλο Πασσαλώσεως). Οι υπολογισμοί εκτελούνται τοπικά, με τα φύλλα PYTHAGOR / ASTGRAM / ASTSIM / FILPAS και τις συναρτήσεις VBA του Πυθαγόρα, όπως ενσωματώθηκαν στην εφαρμογή «Πυθαγόρας Κινητό» (GKDNS Field App 5.3.0). Τα δεδομένα αποθηκεύονται στη συσκευή. <a id="pyth_open" href="pythagoras.html" target="_blank" rel="noopener">Άνοιγμα σε νέο παράθυρο ↗</a></div>
+  </div>
+  <div class="pythwrap"><iframe id="pyth_frame" title="Πυθαγόρας" data-src="pythagoras.html" loading="lazy"></iframe></div>
+</section>
+
+<!-- ============================ TAB: MV ============================ -->
+<section class="tab" id="tab-mv">
+<div class="layout">
+  <div class="inputs">
+    <div class="card"><h2><span class="n">1</span> Στοιχεία πελάτη ΜΤ</h2>
+      <div class="field"><label>Συνολική ισχύς Μ/Σ πελάτη (kVA)</label><input id="v_kva" type="number" min="1" step="1" value="400"></div>
+      <div class="field"><label>Πλήθος Μ/Σ</label><input id="v_n" type="number" min="1" max="10" step="1" value="1"></div>
+      <div class="field"><label>Μ/Σ μόνιμα παράλληλοι στη ΧΤ;</label><select id="v_par"><option value="1">ΝΑΙ</option><option value="0">ΟΧΙ</option></select></div>
+      <div class="field wide"><label>Θέση μέτρησης</label><select id="v_met"><option value="IN">Εσωτερικά – χώρος που παραχωρεί ο πελάτης</option><option value="OUT">Εξωτερικά – τερματικός στύλος (Ρ-43)</option></select></div>
+      <div class="field"><label>Δίκτυο ΜΤ</label><select id="v_net"><option value="UG">Υπόγειο</option><option value="OH">Εναέριο</option></select></div>
+      <div class="field"><label>Δηλωμένη μελλοντική αύξηση > 630 kVA;</label><select id="v_fut"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field"><label>Ιδιαίτερα μέσα προστασίας ανά Μ/Σ;</label><select id="v_sep"><option value="0">ΟΧΙ</option><option value="1">ΝΑΙ</option></select></div>
+      <div class="field"><label>Τάση ΜΤ (kV)</label><select id="v_kv"><option value="20">20</option><option value="15">15</option><option value="6.6">6,6</option></select></div>
+      <div class="field"><label>Μεγαλύτερος Μ/Σ (kVA) <small>για τις ασφάλειες ΜΤ</small></label><select id="v_big"></select></div>
+    </div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="v_result"><div class="status">ΤΥΠΟΣ ΠΑΡΟΧΗΣ ΜΤ – ΠΙΝΑΚΑΣ</div><div class="big" id="v_big_out">—</div><div class="line" id="v_line1"></div><div class="line" id="v_line2"></div></div>
+    <div class="card"><h2><span class="n">2</span> Στοιχεία</h2><div class="factors" id="v_facts"></div></div>
+    <div class="card"><h2><span class="n">3</span> Πότε BKI / BKII – κανόνες (ΟΔ.34 & ΔΠΑ 1990)</h2><ul class="notes" id="v_rules"></ul></div>
+    <div class="card"><h2><span class="n">4</span> Παραδείγματα</h2><div style="overflow-x:auto"><table class="grid" id="v_examples"></table></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: OD26 CHECK (round-1 selector) ============================ -->
+<section class="tab" id="tab-od26">
+<div class="layout">
+  <div class="inputs">
+    <div class="card">
+      <h2><span class="n">1</span> Καλώδιο & εγκατάσταση</h2>
+      <div class="field wide"><label>Οικογένεια καλωδίου <small>Πίνακες IV / V / VI / VII της ΟΔ.26</small></label><select id="family"></select></div>
+      <div class="field wide"><label>Τρόπος εγκατάστασης</label><select id="method"></select></div>
+      <div class="field"><label>Φάσεις φορτίου <small>1Φ μόνο με συγκεντρικά 2x6 / 2x16</small></label><select id="phases"><option value="3">3Φ (400 V)</option><option value="1">1Φ (230 V)</option></select></div>
+      <div class="field"><label>Διατομή <small>ΑΥΤΟΜΑΤΗ = μικρότερη που περνά όλους τους ελέγχους</small></label><select id="manual"></select></div>
+    </div>
+    <div class="card">
+      <h2><span class="n">2</span> Φορτίο</h2>
+      <div class="field wide"><label>Τρόπος καθορισμού φορτίου</label><select id="lmode">
+        <option value="L1">Από την καρτέλα «Επιλογή παροχής» (I_B διάταξης)</option>
+        <option value="L2">Άμεση εισαγωγή ρεύματος I (A)</option>
+        <option value="L3">Από φαινόμενη ισχύ S (kVA)</option>
+        <option value="L4">Από ενεργό ισχύ P (kW) και συνφ</option>
+        <option value="L5">Ονομαστική ένταση ασφάλειας τυποποιημένης παροχής</option>
+      </select></div>
+      <div class="field" id="f_lval"><label id="lval_label">Ρεύμα I (A)</label><input id="lval" type="number" min="0" step="0.1" value="100"></div>
+      <div class="field" id="f_cosl"><label>συνφ</label><input id="cos_l" type="number" min="0.1" max="1" step="0.01" value="0.9"></div>
+      <div class="field" id="f_sup"><label>Τυποποιημένη παροχή</label><select id="supply"></select></div>
+      <div class="field" id="f_l1"><label>Ρεύμα διάταξης I_B (A/φάση)</label><input id="l1val" type="text" readonly value="—"></div>
+      <div class="field"><label>Περιθώριο σχεδιασμού (%)</label><input id="margin" type="number" min="0" max="100" step="1" value="0"></div>
+      <div class="field"><label>Παράλληλα καλώδια ανά φάση <small>§4.4.2 – δηλώστε και την ομαδοποίηση</small></label><select id="npar"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+    </div>
+    <div class="card">
+      <h2><span class="n">3</span> Συνθήκες εγκατάστασης</h2>
+      <div class="field env-ground"><label>Θερμοκρασία εδάφους (°C) <small>Πίν. VIII – βάση 25 °C</small></label><select id="gt"></select></div>
+      <div class="field env-air"><label>Θερμοκρασία αέρα (°C) <small>Πίν. VIII – βάση 50 °C</small></label><select id="at"></select></div>
+      <div class="field env-ground"><label>Θερμική αντίσταση εδάφους (K·m/W) <small>Πίν. XIII</small></label><select id="rho"></select></div>
+      <div class="field env-m1 multi"><label>Πλήθος καλωδίων στο χαντάκι <small>Πίν. XIV</small></label><select id="ntr"></select></div>
+      <div class="field env-m2"><label>Αριθμός σωλήνων <small>Πίν. XVI</small></label><select id="npipe"></select></div>
+      <div class="field env-m1 single"><label>Ομάδες μονοπολικών στο χαντάκι <small>Πίν. XV</small></label><select id="ngr"></select></div>
+      <div class="field env-m1 single"><label>Καλώδια ομάδας σε επαφή <small>→ 0,85 (§4.2.2.2)</small></label><input id="touch" type="checkbox" checked></div>
+      <div class="field wide env-air"><label>Ομαδοποίηση στον αέρα <small>Πίν. XVII / XVIII</small></label><select id="amode"></select></div>
+      <div class="field env-air env-grp"><label>Αριθμός σχαρών</label><select id="atr"><option>1</option><option>2</option><option>3</option><option>6</option></select></div>
+      <div class="field env-air env-grp"><label>Αριθμός τριφασικών κυκλωμάτων</label><select id="acc"><option>1</option><option>2</option><option>3</option><option>4</option><option>6</option><option>9</option></select></div>
+    </div>
+    <div class="card">
+      <h2><span class="n">4</span> Πρόσθετοι έλεγχοι</h2>
+      <div class="field"><label><b>Αντοχή σε βραχυκύκλωμα</b> <small>Κεφ. VII – S_min = K·Iβ·√t</small></label><input id="sc_on" type="checkbox" checked></div>
+      <div class="toggle-group" id="g_sc">
+        <div class="field"><label>Ρεύμα βραχυκύκλωσης Iβ (kA)</label><input id="ik" type="number" min="0" step="0.1" value="6"></div>
+        <div class="field"><label>Διάρκεια t (s)</label><input id="tsc" type="number" min="0" step="0.01" value="0.1"></div>
+        <div class="field wide"><label>Συντελεστής K</label><select id="kmode"><option value="A2">Πίνακας Α2 (πλήρες φορτίο)</option><option value="FORMULA">Τύπος (7.9) με προφόρτιση I1/In (§7.4)</option></select></div>
+        <div class="field" id="f_pre"><label>Λόγος προφόρτισης I1/In</label><input id="pre" type="number" min="0" max="1" step="0.05" value="0.8"></div>
+      </div>
+      <div class="field"><label><b>Βραχυχρόνια υπερφόρτιση</b> <small>§6.3</small></label><input id="ov_on" type="checkbox"></div>
+      <div class="toggle-group" id="g_ov">
+        <div class="field"><label>Ένταση υπερφόρτισης (A)</label><input id="iov" type="number" min="0" step="1" value="400"></div>
+        <div class="field"><label>Διάρκεια (s)</label><input id="tov" type="number" min="0" step="0.1" value="15"></div>
+        <div class="field"><label>Προηγούμενη φόρτιση (A)</label><input id="ipre" type="number" min="0" step="1" value="0"></div>
+      </div>
+      <div class="field"><label><b>Περιοδική υπερφόρτιση</b> <small>§6.5</small></label><input id="per_on" type="checkbox"></div>
+      <div class="toggle-group" id="g_per">
+        <div class="field"><label>Ένταση κατά τη φόρτιση (A)</label><input id="iper" type="number" min="0" step="1" value="450"></div>
+        <div class="field"><label>Διάρκεια φόρτισης t1 (s)</label><input id="t1" type="number" min="0" step="1" value="15"></div>
+        <div class="field"><label>Διάρκεια περιόδου t0 (s)</label><input id="t0" type="number" min="0" step="1" value="100"></div>
+      </div>
+      <div class="field"><label><b>Πτώση τάσης</b> <small>πληροφοριακά</small></label><input id="vd_on" type="checkbox"></div>
+      <div class="toggle-group" id="g_vd">
+        <div class="field"><label>Μήκος καλωδίου L (m)</label><input id="L" type="number" min="0" step="1" value="50"></div>
+        <div class="field"><label>συνφ φορτίου</label><input id="cosv" type="number" min="0.1" max="1" step="0.01" value="0.9"></div>
+        <div class="field"><label>X (Ω/km) – παραδοχή</label><input id="X" type="number" min="0" step="0.005" value="0.08"></div>
+        <div class="field"><label>Όριο ΔU (%) <small>κενό = χωρίς έλεγχο</small></label><input id="lim" type="number" min="0" step="0.5" placeholder="—"></div>
+      </div>
+    </div>
+  </div>
+  <div class="outputs">
+    <div class="result" id="result"><div class="status" id="r_status">ΑΠΟΤΕΛΕΣΜΑ</div><div class="big" id="r_big">—</div><div class="line" id="r_line1"></div><div class="line" id="r_line2"></div><div class="chips" id="r_chips"></div></div>
+    <div class="card"><h2><span class="n">5</span> Συντελεστές διόρθωσης ΟΔ.26</h2><div class="factors" id="factors"></div></div>
+    <div class="card"><h2><span class="n">6</span> Πίνακας επιλογής – όλες οι διατομές της οικογένειας</h2><div style="overflow-x:auto"><table class="grid" id="seltable"></table></div></div>
+    <div class="card"><h2><span class="n">7</span> Σημειώσεις</h2><ul class="notes" id="notes"></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: TABLES ============================ -->
+<section class="tab" id="tab-tables"><div class="subtabs noprint" id="subtabs"></div><div id="tables"></div></section>
+
+<!-- ============================ TAB: ΕΤΚΔ (standard constructions manual) ============================ -->
+<section class="tab" id="tab-etkd">
+<div class="etkd-layout">
+  <div class="card etkd-side">
+    <h2>ΕΤΚΔ – Εγχειρίδιο Τυποποιημένων Κατασκευών Δικτύων Διανομής <small class="muted">ΔΕΔΔΗΕ, έκδοση 15.09.2025 · 1.083 σχέδια</small></h2>
+    <div class="searchrow"><input id="k_search" type="search" placeholder="Κωδικός ή λέξη του τίτλου: S-233, P-3II, FCP-21X, τέρμα, γωνία, διακλάδωση, Υ/Σ …" autocomplete="off"><button id="k_clear" class="mini" title="Καθαρισμός αναζήτησης">✕</button></div>
+    <div class="subtabs k-chapters" id="k_chapters"></div>
+    <div class="k-tools"><div class="subtabs" id="k_viewmode"><button data-v="grid" class="active" title="Μικρογραφίες των σχεδίων">▦ Πλακίδια</button><button data-v="list" title="Λίστα κωδικών με τίτλους">☰ Λίστα</button></div><div class="muted small" id="k_count"></div></div>
+    <div class="k-recent" id="k_recent"></div>
+    <div class="etkd-list" id="k_list"></div>
+    <div class="muted small" id="k_note">Πηγή: ΔΕΔΔΗΕ – ΕΤΚΔ (15.09.2025) σε κεφάλαια G, C, CS, FC, FCP, F, P, S, T, U. Οι τίτλοι προέρχονται από αυτόματη ανάγνωση (OCR) του τίτλου κάθε σχεδίου – χρησιμεύουν για την αναζήτηση. Πλήκτρα: ← → προηγούμενο / επόμενο σχέδιο, + / − μεγέθυνση, Esc κλείσιμο πλήρους οθόνης.</div>
+  </div>
+  <div class="card etkd-view" id="k_viewcard">
+    <div class="etkd-bar">
+      <div class="etkd-title"><b id="k_title">—</b><div class="k-ttl" id="k_ttl"></div><span class="muted small" id="k_sub"></span></div>
+      <div class="btnrow noprint etkd-btns">
+        <button id="k_fav" title="Αγαπημένο σχέδιο">☆</button>
+        <button id="k_prev" title="Προηγούμενο σχέδιο (←)">◀</button><button id="k_next" title="Επόμενο σχέδιο (→)">▶</button>
+        <button id="k_pprev" class="hidden" title="Προηγούμενη σελίδα του σχεδίου">◀ Σελ.</button><button id="k_pnext" class="hidden" title="Επόμενη σελίδα του σχεδίου">Σελ. ▶</button>
+        <button id="k_zout" title="Σμίκρυνση (−)">−</button><button id="k_zfit" title="Προσαρμογή στο πλάτος">Προσαρμογή</button><button id="k_zin" title="Μεγέθυνση (+)">+</button>
+        <button id="k_full" title="Πλήρης οθόνη">⛶ Πλήρης οθόνη</button>
+        <a id="k_open" href="#" target="_blank" rel="noopener">Νέο παράθυρο ↗</a>
+      </div>
+    </div>
+    <div class="k-related" id="k_related"></div>
+    <div class="etkd-img" id="k_wrap"><img id="k_img" alt="Σχέδιο ΕΤΚΔ" loading="lazy"><div class="etkd-empty" id="k_empty">Επιλέξτε κεφάλαιο και σχέδιο ή αναζητήστε κωδικό / λέξη.</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: COMMON CONSTRUCTIONS (GIS presentation) ============================ -->
+<section class="tab" id="tab-constr">
+<div class="etkd-layout">
+  <div class="card etkd-side">
+    <h2>Συνηθέστερες κατασκευές στύλων ΜΤ &amp; ΧΤ <small class="muted">ΔΕΔΔΗΕ – Κλάδος GIS, v2.3 (11/2022)</small></h2>
+    <div class="searchrow"><input id="c_search" type="search" placeholder="Κωδικός ή περιγραφή: P-27, διπλό τέρμα, γωνία, ΣΚΧΤ120, S-233 …" autocomplete="off"><button id="c_clear" class="mini" title="Καθαρισμός αναζήτησης">✕</button></div>
+    <div class="subtabs" id="c_sections"></div>
+    <details class="c-general"><summary>Γενικές σημειώσεις της παρουσίασης (ξύλινοι → τσιμεντένιοι, «ΙΙ», 5x, ΣΚΧΤ70/120, σχεδίαση GIS)</summary><ul class="notes small" id="c_general"></ul></details>
+    <div class="muted small" id="c_count"></div>
+    <div id="c_list" class="c-list"></div>
+  </div>
+  <div class="card etkd-view">
+    <div class="subtabs c-views" id="c_views"><button data-cv="page" class="active">📄 Σελίδα παρουσίασης</button><button data-cv="etkd">📐 Σχέδιο ΕΤΚΔ</button></div>
+    <div class="cv" data-cv="page">
+      <div class="etkd-bar"><div class="etkd-title"><b id="c_title">Σελίδα 1 / 27</b> <span class="muted small" id="c_sub"></span></div>
+        <div class="btnrow noprint etkd-btns"><button id="c_prev" title="Προηγούμενη σελίδα">◀</button><button id="c_next" title="Επόμενη σελίδα">▶</button><button id="c_full" title="Πλήρης οθόνη">⛶ Πλήρης οθόνη</button><a id="c_open" href="img/common/p-01.jpg" target="_blank" rel="noopener">Νέο παράθυρο ↗</a></div></div>
+      <div class="c-photo hidden" id="c_photo"></div>
+      <div class="filmstrip" id="c_strip"></div>
+      <div class="etkd-img" id="c_wrap"><img id="c_img" src="img/common/p-01.jpg" alt="Σελίδα παρουσίασης" loading="lazy"></div>
+    </div>
+    <div class="cv hidden" data-cv="etkd">
+      <div class="etkd-bar"><div class="etkd-title"><b id="ce_title">—</b><div class="k-ttl" id="ce_ttl"></div><span class="muted small" id="ce_sub"></span></div>
+        <div class="btnrow noprint etkd-btns"><button id="ce_prev" title="Προηγούμενο σχέδιο της κατασκευής">◀</button><button id="ce_next" title="Επόμενο σχέδιο της κατασκευής">▶</button><button id="ce_full" title="Πλήρης οθόνη">⛶ Πλήρης οθόνη</button><button id="ce_goto">Άνοιγμα στην καρτέλα ΕΤΚΔ ↗</button></div></div>
+      <div class="k-related" id="ce_codes"></div>
+      <div class="etkd-img" id="ce_wrap"><img id="ce_img" alt="Σχέδιο ΕΤΚΔ" loading="lazy"><div class="etkd-empty" id="ce_empty">Πατήστε έναν κωδικό ΕΤΚΔ (π.χ. P-3II ↗) σε μια κατασκευή για να δείτε το σχέδιο εδώ.</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- full-screen image viewer (ΕΤΚΔ drawings, presentation pages) -->
+<div class="fsv hidden" id="fsv" role="dialog" aria-label="Προβολή σχεδίου">
+  <div class="fsv-bar"><div class="fsv-ttl"><b id="fsv_title"></b><div class="k-ttl" id="fsv_ttl"></div><span class="muted small" id="fsv_sub"></span></div>
+    <div class="btnrow"><button id="fsv_prev" title="Προηγούμενο (←)">◀</button><button id="fsv_next" title="Επόμενο (→)">▶</button><button id="fsv_zout" title="Σμίκρυνση (−)">−</button><button id="fsv_zfit">Προσαρμογή</button><button id="fsv_zin" title="Μεγέθυνση (+)">+</button><a id="fsv_open" href="#" target="_blank" rel="noopener" title="Νέο παράθυρο">↗</a><button id="fsv_close" title="Κλείσιμο (Esc)">✕ Κλείσιμο</button></div></div>
+  <div class="fsv-body" id="fsv_body"><img id="fsv_img" alt="Σχέδιο"></div>
+</div>
+
+<!-- ============================ TAB: SAFETY CLEARANCES (mimic drawings, values from data.js) ============================ -->
+<section class="tab" id="tab-clr">
+<div id="clr_root">
+  <div class="card">
+    <h2>Αποστάσεις ασφαλείας – επιλέξτε περίπτωση <small class="muted">ΕΤΚΔ C-1 … C-23 · ΟΔ.38 · εγκύκλιοι ΔΕΔΔΗΕ (κολυμβητήρια, ανεμογεννήτριες, βιοαέριο, πρατήρια, ΔΕΣΦΑ)</small></h2>
+    <div class="field wide clr-pickrow"><label>Περίπτωση <small>επιλογή από τη λίστα ή από τα πλακίδια</small></label><select id="clr_pick"></select></div>
+    <div id="clr_tiles" class="clr-tiles"></div>
+  </div>
+  <div class="card" id="clr_view">
+    <div class="etkd-bar"><div class="etkd-title"><b id="clr_code">—</b><div class="k-ttl" id="clr_title"></div><span class="muted small" id="clr_date"></span></div>
+      <div class="btnrow noprint etkd-btns"><button id="clr_fsv" title="Πλήρης οθόνη (pinch-zoom στο κινητό)">⛶ Πλήρης οθόνη</button><button id="clr_full" title="Άνοιγμα του σχήματος σε νέο παράθυρο">Νέο παράθυρο ↗</button><button id="clr_print" title="Εκτύπωση της καρτέλας">🖨 Εκτύπωση</button></div></div>
+    <div class="clr-ctl" id="clr_ctl"></div>
+    <div class="factors hidden" id="clr_facts"></div>
+    <div class="clr-svg" id="clr_svg"></div>
+    <details class="clr-det"><summary id="clr_det_sum">Πίνακας τιμών, κανόνες &amp; σημειώσεις</summary><div id="clr_det_body"></div></details>
+    <div class="muted small" style="margin-top:8px">Τα σχέδια είναι μιμικά (όχι υπό κλίμακα)· οι τιμές που αναγράφονται προέρχονται από τις τυποποιήσεις ΔΕΗ/ΔΕΔΔΗΕ που σημειώνονται σε κάθε σχήμα – οι πλήρεις πίνακες και οι σημειώσεις ανοίγουν με το drop-down. Βοήθημα μελέτης: ισχύουν οι ΚΕΣΥΓΗΕ (Τμήμα 23, άρθρα 230–239) και το ΕΤΚΔ Κεφ. C.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ TAB: GENERAL INFO (directive summaries) ============================ -->
+<section class="tab" id="tab-info">
+  <div class="card" style="margin-bottom:10px"><h2>Γενικές πληροφορίες – τα σημαντικότερα σημεία των Οδηγιών Διανομής</h2>
+    <div class="muted small">Περιλήψεις με αρίθμηση ανά κεφάλαιο: ΟΔ.5 «Ηλεκτροδότηση κτισμάτων εντός ζώνης δουλείας γραμμών μεταφοράς», ΟΔ.40 «Τοπογραφική μελέτη», ΟΔ.41 «Εκλογή στοιχείων δικτύων», ΟΔ.42 «Χάρτες – σχεδίαση – αρίθμηση», ΟΔ.48 «Συνεπτυγμένοι υπαίθριοι υποσταθμοί», ΟΔ.61 «Πολιτική ηλεκτροδότησης καταναλωτών ΧΤ», ΟΔ.95 «Μετατοπίσεις – παραλλαγές δικτύων», ΟΔ.119 «Γειώσεις δικτύων διανομής» (ουδετέρωση – υπολογισμός στην καρτέλα «Ουδετέρωση»), οι «Οδηγίες κατασκευής παροχής – Δήλωση ετοιμότητας» (V3), το ΔΔ/272503/2023 «Ενίσχυση δικτύου λόγω ακραίων καιρικών φαινομένων», τα Συστήματα υπολογισμού συμμετοχών ΧΤ και ΜΤ και η απόφαση ΡΑΑΕΥ Ε-114/2026 (ΦΕΚ 3954Β/2026 – αναπροσαρμογή τιμοκαταλόγου συμμετοχών 2026, υπολογισμός στην καρτέλα «Συμμετοχές»), ο Ν.4495/2017 και η ΕΕΔΜΚ (ΥΑ 43266/1174/2020 & ΦΕΚ 1028Β/2022) για τις κατασκευές μετρητών στα όρια οικοπέδων, τα «Πληροφοριακά στοιχεία ΜΤ» και η ΥΔ Ν.1599. Οι υπόλοιπες οδηγίες του εργαλείου (ΟΔ.26, ΟΔ.45, ΟΔ.22, ΟΔ.21, ΟΔ.34, ΟΔ.38, CS-3, C-1…C-23, Εγχειρίδιο Μελετών) αναλύονται στην καρτέλα «Οδηγίες» και στους «Πίνακες».</div>
+    <input id="i_search" type="search" placeholder="Αναζήτηση στις περιλήψεις (π.χ. 40 m, συντελεστής ασφαλείας, Μ/Σ, γείωση …)" autocomplete="off" style="margin-top:8px">
+    <div class="subtabs" id="i_tabs"></div>
+  </div>
+  <div id="i_body"></div>
+</section>
+
+<!-- ============================ TAB: HELP ============================ -->
+<section class="tab" id="tab-help"><div class="card doc" id="help"></div></section>
+</main>
+<footer lang="el">Connexion Engineering · Επιλογή παροχής ΧΤ – μετρητική διάταξη – υλικά – αναχωρήσεις Μ/Σ – εναέριοι Υ/Σ – πτώση τάσης – ουδετέρωση ΧΤ (συνθήκη βραχυκύκλωσης, ΟΔ.119) – Πυθαγόρας – πελάτες ΜΤ · ΟΔ.26 (3η έκδ.) / ΟΔ.45 / ΟΔ.22 / ΟΔ.21 / ΟΔ.34 / ΟΔ.38 / CS-3 / C-1…C-23 · Βοήθημα μελέτης – η τελική ευθύνη ανήκει στον μελετητή<br><b>COPYRIGHT © Δημήτρης Βρούβας</b> (φιλική συμμετοχή Αθηνά) · Έκδοση 7.3</footer>
+
+<script src="activation.js"></script>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="engine2.js"></script>
+<script src="particip.js"></script>
+<script src="vision.js"></script>
+<script src="diagrams.js"></script>
+<script src="app_od26.js"></script>
+<script src="etkd/index.js"></script>
+<script src="app2.js"></script>
+<script src="app_ref.js"></script>
+<script src="app_clr.js"></script>
+<script src="app_search.js"></script>
+<script src="app_vision.js"></script>
+<script>
+if ("serviceWorker" in navigator && location.protocol === "https:") { navigator.serviceWorker.register("sw.js").catch(() => {}); }
+</script>
+<script>
+// iPhone / iPad: εγκατεστημένη από το Safari («Προσθήκη στην αρχική οθόνη») – χωρίς διάλογο εκτύπωσης· σημειώνεται στα κουμπιά εκτύπωσης
+if (/iP(hone|ad|od)/.test(navigator.userAgent) && (navigator.standalone === true || matchMedia("(display-mode: standalone)").matches)) {
+  document.body.classList.add("ios-standalone");
+  document.querySelectorAll("#btn_print, #btn_print_mat, #clr_print").forEach(b => { b.title = "Στο iPhone/iPad η εκτύπωση γίνεται από το Safari (κουμπί Κοινή χρήση → Εκτύπωση) – ανοίξτε τη σελίδα στο Safari."; b.addEventListener("click", () => { let t = document.getElementById("ios_toast"); if (!t) { t = document.createElement("div"); t.id = "ios_toast"; t.className = "toast"; document.body.appendChild(t); } t.textContent = "Στην εγκατεστημένη εφαρμογή iOS δεν υπάρχει διάλογος εκτύπωσης – ανοίξτε τη σελίδα στο Safari και χρησιμοποιήστε Κοινή χρήση → Εκτύπωση / PDF."; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 6000); }, true); });
+}
+</script>
+</body>
+</html>
